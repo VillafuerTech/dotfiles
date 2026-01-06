@@ -4,34 +4,37 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-Personal dotfiles for macOS. Manages configurations for WezTerm, tmux, NeoVim, zsh, Starship, and Ranger through symlinks.
+Minimal macOS dotfiles for terminal-focused development. Configures WezTerm, Zsh, Starship, NeoVim, Tmux, and Ranger.
 
-## Common Commands
+## Commands
 
 ```bash
-./install.sh                          # Full setup (prompts for options)
+./install.sh                          # Full setup (interactive)
 ./scripts/symlinks.sh --create        # Create symlinks only
 ./scripts/symlinks.sh --delete        # Remove symlinks
-brew bundle --file=homebrew/Brewfile  # Install packages from Brewfile
+brew bundle --file=homebrew/Brewfile  # Install Homebrew packages
 ```
 
-## Architecture
+## Structure
 
-### Symlink System
-`symlinks.conf` defines source:target mappings. `scripts/symlinks.sh` reads this config to create/delete symlinks. Sources are relative to repo root; targets typically in `~/.config/`.
+```
+homebrew/Brewfile     # Package definitions
+nvim/                 # NeoVim config (lazy.nvim)
+ranger/               # File manager config
+scripts/              # Install helpers
+starship/             # Prompt config
+symlinks.conf         # Symlink mappings (source:target)
+tmux/                 # Multiplexer config
+wezterm/              # Terminal config (Lua)
+zsh/                  # Shell config
+```
 
-### Theme System
-Consistent theming (nord/onedark) via environment variables in `zsh/.zshenv`:
-- `NVIM_THEME`, `TMUX_THEME`, `STARSHIP_THEME`, `WEZTERM_THEME`
+## Key Files
 
-### NeoVim Structure (`nvim/`)
-- `init.lua` - Entry point, loads lazy.nvim plugin manager
-- `lua/core/` - Core settings: `options.lua`, `keymaps.lua`, `snippets.lua`
-- `lua/plugins/` - Individual plugin configs
-- `lua/plugins/themes/` - Theme configurations
-- Themes loaded dynamically based on `NVIM_THEME` env var
+- `symlinks.conf` - Defines all symlink source:target mappings
+- `zsh/.zshenv` - Theme env vars: `NVIM_THEME`, `TMUX_THEME`, `STARSHIP_THEME`, `WEZTERM_THEME`
+- `nvim/lazy-lock.json` - Pinned plugin versions (preserve for reproducibility)
 
-### Adding New Dotfiles
-1. Place config file in appropriate subdirectory
-2. Add source:target mapping to `symlinks.conf`
-3. Run `./scripts/symlinks.sh --create`
+## Not Included
+
+VS Code, iTerm2, Kitty, Karabiner-Elements, Rectangle, Obsidian, DBeaver, Vim configs were intentionally removed. Uses default macOS window management.
