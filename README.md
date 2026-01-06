@@ -1,66 +1,125 @@
 # Dotfiles
 
-Configuration files for my macOS development environment. These dotfiles are minimal and focused on a core terminal-based workflow.
+Minimal macOS terminal-focused development environment.
 
-## Tools
+## Supported Tools
 
-- **Terminal**: [WezTerm](https://wezfurlong.org/wezterm/index.html)
-- **Multiplexer**: [Tmux](https://github.com/tmux/tmux/wiki)
-- **Editor**: [NeoVim](https://neovim.io/)
-- **Shell Prompt**: [Starship](https://starship.rs/)
-- **File Manager**: [Ranger](https://github.com/ranger/ranger)
-- **Color Theme**: Nord (configurable via environment variables in `.zshenv`)
+| Tool | Purpose |
+|------|---------|
+| [WezTerm](https://wezfurlong.org/wezterm/) | Terminal emulator |
+| [Zsh](https://www.zsh.org/) | Shell |
+| [Starship](https://starship.rs/) | Shell prompt |
+| [NeoVim](https://neovim.io/) | Editor |
+| [Tmux](https://github.com/tmux/tmux/wiki) | Terminal multiplexer |
+| [Ranger](https://github.com/ranger/ranger) | File manager |
 
-## Setup
+Theme: Nord (configurable to OneDark via env vars in `zsh/.zshenv`)
+
+## Requirements
+
+- macOS (tested on Apple Silicon, Homebrew at `/opt/homebrew`)
+- Xcode Command Line Tools
+- Homebrew
+
+## Quick Start
 
 ```bash
+git clone https://github.com/YOUR_USER/dotfiles ~/.config/dotfiles
+cd ~/.config/dotfiles
 ./install.sh
 ```
 
-The installer will prompt you to:
-1. Install apps via Homebrew (optional)
-2. Overwrite existing dotfiles (optional)
+The installer prompts for:
+1. **Install apps?** - Runs Homebrew to install packages from `homebrew/Brewfile`
+2. **Overwrite existing dotfiles?** - Removes existing symlinks/files before creating new ones
 
-## How It Works
+## What Gets Changed
 
-### Symlinks
+- Symlinks created from this repo to `~/.config/` and `~/`
+- Homebrew packages installed (if selected)
+- macOS defaults applied (Dock, Finder preferences)
+- `~/.hushlogin` created (suppresses terminal login message)
 
-All configurations are managed via symlinks defined in `symlinks.conf`. Each line maps a source file in this repo to its target location:
+## How Symlinks Work
 
+Mappings are defined in `symlinks.conf`:
 ```
 $(pwd)/nvim:$HOME/.config/nvim
 $(pwd)/zsh/.zshrc:$HOME/.zshrc
 ```
 
-To manage symlinks manually:
+Manual management:
 ```bash
-./scripts/symlinks.sh --create   # Create all symlinks
+./scripts/symlinks.sh --create   # Create symlinks
 ./scripts/symlinks.sh --delete   # Remove symlinks only
 ```
 
-### Theme Configuration
+## Theme Configuration
 
-Themes are controlled by environment variables in `zsh/.zshenv`:
+Environment variables in `zsh/.zshenv` control theming:
 - `NVIM_THEME` - NeoVim colorscheme
-- `TMUX_THEME` - tmux status bar theme
-- `STARSHIP_THEME` - Shell prompt theme
-- `WEZTERM_THEME` - Terminal theme
+- `TMUX_THEME` - Tmux status bar
+- `STARSHIP_THEME` - Shell prompt
+- `WEZTERM_THEME` - Terminal colors
 
-Supported values: `nord`, `onedark`
+Values: `nord` (default), `onedark`
+
+## Maintenance
 
 ### Homebrew
-
-All packages are defined in `homebrew/Brewfile`. To update:
 ```bash
-brew bundle --file=homebrew/Brewfile
+brew bundle check --file=homebrew/Brewfile  # Check status
+brew bundle --file=homebrew/Brewfile        # Install missing
+brew bundle dump --file=homebrew/Brewfile --force  # Update Brewfile from installed
 ```
 
-### Neovim Plugins
+### NeoVim Plugins
+Plugins managed by [lazy.nvim](https://github.com/folke/lazy.nvim). Lock file: `nvim/lazy-lock.json`
+```bash
+nvim                    # Open nvim, lazy.nvim auto-installs
+:Lazy update            # Update plugins
+:Lazy restore           # Restore from lock file
+```
 
-Plugins are managed by [lazy.nvim](https://github.com/folke/lazy.nvim). The `nvim/lazy-lock.json` file locks plugin versions for reproducibility.
+### Tmux Plugins
+```bash
+tmux source ~/.config/tmux/tmux.conf   # Reload config
+# Press prefix + I to install plugins via TPM
+```
+
+## Troubleshooting
+
+```bash
+# Verify symlinks work
+./scripts/symlinks.sh --delete && ./scripts/symlinks.sh --create
+
+# Test nvim config
+nvim --headless "+quitall"
+
+# Test tmux config
+tmux -f tmux/tmux.conf new-session -d && tmux kill-server
+
+# Brewfile issues
+brew bundle check --file=homebrew/Brewfile
+```
+
+## What's NOT Included
+
+This repo intentionally excludes:
+- VS Code (not used)
+- iTerm2, Kitty (WezTerm only)
+- Karabiner-Elements, Rectangle (default macOS window management)
+- Obsidian, DBeaver, Vim configs
 
 ## Adding New Dotfiles
 
-1. Place the config in the appropriate directory
-2. Add a mapping to `symlinks.conf`
+1. Place config in appropriate directory
+2. Add mapping to `symlinks.conf`
 3. Run `./scripts/symlinks.sh --create`
+
+## Documentation
+
+- [docs/SETUP.md](docs/SETUP.md) - Detailed install steps
+- [docs/CONFIG_OVERVIEW.md](docs/CONFIG_OVERVIEW.md) - Module explanations
+- [docs/MAINTENANCE.md](docs/MAINTENANCE.md) - Update workflows
+- [docs/VERIFY.md](docs/VERIFY.md) - Verification commands
