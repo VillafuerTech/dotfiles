@@ -9,3 +9,9 @@ setopt HIST_IGNORE_ALL_DUPS
 
 # Work
 [ -f "$HOME/.config/zsh/work.zsh" ] && source "$HOME/.config/zsh/work.zsh"
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+
+. "$HOME/.local/share/../bin/env"
+export PATH="$(npm config get prefix)/bin:$PATH"
+export PATH="$(npm config get prefix)/bin:$PATH"

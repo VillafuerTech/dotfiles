@@ -1,77 +1,66 @@
 # Dotfiles
 
-This repository contains my dotfiles, which are the config files and scripts I use to customize my development environment. These files help me maintain a consistent setup across different machines and save time when setting up new environments.
+Configuration files for my macOS development environment. These dotfiles are minimal and focused on a core terminal-based workflow.
 
-![screenshot](img/nvim-demo.png)
+## Tools
 
-## Essential Tools
-
-- **Editor**: [NeoVim](https://neovim.io/). As a fallback, I have a basic standard [Vim](https://www.vim.org/) config that provides 80% of the functionality of my NeoVim setup without any dependencies for maximum portability and stability.
+- **Terminal**: [WezTerm](https://wezfurlong.org/wezterm/index.html)
 - **Multiplexer**: [Tmux](https://github.com/tmux/tmux/wiki)
-- **Main Terminal**: [WezTerm](https://wezfurlong.org/wezterm/index.html)
+- **Editor**: [NeoVim](https://neovim.io/)
 - **Shell Prompt**: [Starship](https://starship.rs/)
-- **Color Theme**: All themes are based on the [Nord color palette](https://www.nordtheme.com/docs/colors-and-palettes). Themes can be easily switched via environment variables set in `.zshenv`.
-- **Window Management**: [Rectangle](https://github.com/rxhanson/Rectangle) for resizing windows, paired with [Karabiner-Elements](https://karabiner-elements.pqrs.org/) for switching between applications.
 - **File Manager**: [Ranger](https://github.com/ranger/ranger)
-
-## Custom Window Management
-
-I'm not a fan of the default window management solutions that macOS provides, like repeatedly pressing Cmd+Tab to switch apps or using the mouse to click and drag. To streamline my workflow, I created a custom window management solution using [Karabiner-Elements](https://karabiner-elements.pqrs.org/) and [Rectangle](https://rectangleapp.com/). By using these tools together, I can efficiently manage my windows and switch apps with minimal mental overhead and maximum speed, using only my keyboard. Here's how it works:
-
-### Tab Key as Hyperkey
-
-The `Tab` key acts as a regular `Tab` when tapped, but when held, it provides additional functionalities.
-
-### Access Window Layer
-
-Holding `Tab + W` enables a window management layer, where other keys become shortcuts to resize the current window using Rectangle.
-
-**Examples:**
-
-- `Tab + W + H`: Resize window to the left half
-- `Tab + W + L`: Resize window to the right half
-
-### Access Exposé Layer
-
-Holding `Tab + E` enables an exposé layer, where other keys become shortcuts to open specific apps.
-
-**Examples:**
-
-- `Tab + E + J`: Open browser
-- `Tab + E + K`: Open terminal
+- **Color Theme**: Nord (configurable via environment variables in `.zshenv`)
 
 ## Setup
-
-To set up these dotfiles on your system, run:
 
 ```bash
 ./install.sh
 ```
 
-Then follow the on-screen prompts.
+The installer will prompt you to:
+1. Install apps via Homebrew (optional)
+2. Overwrite existing dotfiles (optional)
 
-## Uninstalling
+## How It Works
 
-If you ever want to remove the symlinks created by the installation script, you can use the provided symlinks removal script:
+### Symlinks
 
-To delete all symlinks created by the installation script, run:
+All configurations are managed via symlinks defined in `symlinks.conf`. Each line maps a source file in this repo to its target location:
 
-```bash
-./scripts/symlinks.sh --delete
+```
+$(pwd)/nvim:$HOME/.config/nvim
+$(pwd)/zsh/.zshrc:$HOME/.zshrc
 ```
 
-This will remove the symlinks but will not delete the actual configuration files, allowing you to easily revert to your previous configuration if needed.
+To manage symlinks manually:
+```bash
+./scripts/symlinks.sh --create   # Create all symlinks
+./scripts/symlinks.sh --delete   # Remove symlinks only
+```
 
-## Adding New Dotfiles and Software
+### Theme Configuration
 
-### Dotfiles
+Themes are controlled by environment variables in `zsh/.zshenv`:
+- `NVIM_THEME` - NeoVim colorscheme
+- `TMUX_THEME` - tmux status bar theme
+- `STARSHIP_THEME` - Shell prompt theme
+- `WEZTERM_THEME` - Terminal theme
 
-When adding new dotfiles to this repository, follow these steps:
+Supported values: `nord`, `onedark`
 
-1. Place your dotfile in the appropriate location within the repository.
-2. Update the `symlinks.conf` file to include the symlink creation for your new dotfile.
-3. If necessary, update the `install.sh` script to set up the software.
+### Homebrew
 
-### Software Installation
+All packages are defined in `homebrew/Brewfile`. To update:
+```bash
+brew bundle --file=homebrew/Brewfile
+```
 
-Software is installed using Homebrew. To add a formula or cask, update the `homebrew/Brewfile` and run `./scripts/brew_install_custom.sh`. If you need to install a specific version of a package, find its Ruby script in the commit history of an official Homebrew GitHub repository and place it in the `homebrew/custom-casks/` or `homebrew/custom-formulae/` directory, depending on whether it's a cask or formula.
+### Neovim Plugins
+
+Plugins are managed by [lazy.nvim](https://github.com/folke/lazy.nvim). The `nvim/lazy-lock.json` file locks plugin versions for reproducibility.
+
+## Adding New Dotfiles
+
+1. Place the config in the appropriate directory
+2. Add a mapping to `symlinks.conf`
+3. Run `./scripts/symlinks.sh --create`

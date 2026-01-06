@@ -6,6 +6,12 @@ alias sleep='pmset sleepnow'
 alias c='clear'
 alias e='exit'
 
+alias cc='claude'
+alias cx='codex --profile auto'
+alias cxr='codex --profile readonly'
+alias cxn='codex --profile net'
+alias gmc='gemini --sandbox'
+
 # Git
 alias g='git'
 alias ga='git add'
@@ -82,3 +88,8 @@ alias ls="eza --all --icons=always"
 
 # Lazygit
 alias lg="lazygit"
+
+alias lv="cd .."
+alias lv2="cd ../.."
+alias lv3="cd ../../.."
+alias lv4="cd ../../../.."
