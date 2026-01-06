@@ -11,6 +11,8 @@ brew "cmake"
 brew "fzf"
 # GNU compiler collection
 brew "gcc"
+# Ambitious Vim-fork focused on extensibility and agility
+brew "neovim"
 # Fast, highly customisable system info script
 brew "neofetch"
 # Platform built on V8 to build network applications
@@ -57,8 +59,6 @@ brew "lazygit"
 cask "appcleaner"
 # Web browser focusing on privacy
 cask "brave-browser"
-# Universal database tool and SQL client
-cask "dbeaver-community"
 # App to build and share containerized applications and microservices
 cask "docker"
 # Developer targeted fonts with a high number of glyphs
@@ -69,43 +69,13 @@ cask "font-jetbrains-mono-nerd-font"
 cask "font-symbols-only-nerd-font"
 # Grammarly for desktop
 cask "grammarly-desktop"
-# Terminal emulator as alternative to Apple's Terminal app
-cask "iterm2"
-# GPU-based terminal emulator
-cask "kitty"
 # GPU-accelerated cross-platform terminal emulator and multiplexer
 cask "wezterm"
-# Knowledge base that works on top of a local folder of plain text Markdown files
-cask "obsidian"
 # Music streaming service
 cask "spotify"
-# Keyboard customizer
-cask "karabiner-elements"
-# Open-source code editor
-cask "visual-studio-code"
 # Multimedia player
 cask "vlc"
 # App that enables mouse-free UI interaction
 cask "shortcat"
 # Software for Logitech devices
 cask "logi-options-plus"
-vscode "eamodio.gitlens"
-vscode "esbenp.prettier-vscode"
-vscode "mechatroner.rainbow-csv"
-vscode "ms-azuretools.vscode-docker"
-vscode "ms-python.black-formatter"
-vscode "ms-python.flake8"
-vscode "ms-python.isort"
-vscode "ms-python.python"
-vscode "ms-python.vscode-pylance"
-vscode "ms-toolsai.jupyter"
-vscode "ms-toolsai.jupyter-keymap"
-vscode "ms-toolsai.jupyter-renderers"
-vscode "ms-toolsai.vscode-jupyter-cell-tags"
-vscode "ms-toolsai.vscode-jupyter-slideshow"
-vscode "mtxr.sqltools"
-vscode "redhat.vscode-yaml"
-vscode "vscode-icons-team.vscode-icons"
-vscode "vscodevim.vim"
-vscode "ZainChen.json"
-vscode "zhuangtongfa.material-theme"

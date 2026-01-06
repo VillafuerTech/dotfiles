@@ -133,3 +133,42 @@ bindkey -M vicmd 'y' vi-yank-xclip
 autoload edit-command-line
 zle -N edit-command-line
 bindkey -M vicmd v edit-command-line
+
+create_ds_project() {
+  echo "Project name:"
+  read proj
+  mkdir -p "$proj"/{notebooks,src,data/{raw,interim,processed},reports,env,tests}
+  cd "$proj" || exit
+
+  echo " Which Python version do you want to use?"
+  read pyv
+
+  # Install python version if missing
+  if ! pyenv versions --bare | grep -q "$pyv"; then
+    echo "Installing Python $pyv with pyenv..."
+    pyenv install "$pyv"
+  fi
+
+  pyenv local "$pyv"
+
+  # Setup venv
+  python -m venv .venv
+  source .venv/bin/activate
+
+  python -m pip install --upgrade pip
+
+  echo "Do you want to install Jupyter + pandas + numpy + matplotlib? (y/n)"
+  read yn
+  if [ "$yn" = "y" ]; then
+    python -m pip install jupyterlab ipykernel jupytext nbdime pandas numpy matplotlib
+    python -m ipykernel install --user --name "$proj" --display-name "$proj ($pyv)"
+  fi
+
+  # Git init
+  git init -q
+  echo -e ".venv/\n__pycache__/\n*.pyc\ndata/raw/\ndata/interim/\n.ipynb_checkpoints/" > .gitignore
+  git add .
+  git commit -m "Initial commit: project skeleton with Python $pyv" >/dev/null
+
+  echo "Project $proj created with Python $pyv"
+}
