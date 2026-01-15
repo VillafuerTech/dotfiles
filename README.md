@@ -119,7 +119,5 @@ This repo intentionally excludes:
 
 ## Documentation
 
-- [docs/SETUP.md](docs/SETUP.md) - Detailed install steps
 - [docs/CONFIG_OVERVIEW.md](docs/CONFIG_OVERVIEW.md) - Module explanations
-- [docs/MAINTENANCE.md](docs/MAINTENANCE.md) - Update workflows
-- [docs/VERIFY.md](docs/VERIFY.md) - Verification commands
+- [docs/KEYBINDINGS.md](docs/KEYBINDINGS.md) - Consolidated keybindings
